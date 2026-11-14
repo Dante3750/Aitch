@@ -1,0 +1,43 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "requestDomains": [
+        "doubleclick.net",
+        "googlesyndication.com",
+        "googleadservices.com",
+        "adservice.google.com",
+        "2mdn.net",
+        "amazon-adsystem.com",
+        "adnxs.com",
+        "taboola.com",
+        "outbrain.com",
+        "criteo.com",
+        "criteo.net",
+        "pubmatic.com",
+        "rubiconproject.com",
+        "openx.net",
+        "casalemedia.com",
+        "adsrvr.org",
+        "adform.net",
+        "smartadserver.com",
+        "media.net",
+        "zedo.com",
+        "advertising.com",
+        "moatads.com",
+        "scorecardresearch.com"
+      ],
+      "resourceTypes": [
+        "sub_frame",
+        "script",
+        "image",
+        "xmlhttprequest",
+        "media",
+        "ping",
+        "other"
+      ]
+    }
+  }
+]
