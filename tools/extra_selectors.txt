@@ -1,0 +1,14 @@
+ins.adsbygoogle
+iframe[src*='doubleclick.net']
+iframe[src*='googlesyndication.com']
+iframe[id^='google_ads_iframe']
+div[id^='google_ads_iframe']
+div[id^='div-gpt-ad']
+div[data-google-query-id]
+div[id^='taboola-']
+div[class^='trc_rbox']
+div.OUTBRAIN
+div[data-ad-slot]
+div[data-ad-unit]
+amp-ad
+amp-embed[type='taboola']

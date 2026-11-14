@@ -2,16 +2,17 @@
 
 A small, readable ad blocker for Firefox and Chrome (Manifest V3).
 
-**Status: v0.1.0, early.** It blocks common third-party ad servers and hides the
-empty slots they leave behind. It does not block YouTube or Hotstar video ads.
+**Status: v0.2.0, early.** It blocks about 43,000 known ad-server domains and hides
+about 13,500 kinds of leftover ad slot, using the open EasyList data. It does not block
+YouTube or Hotstar video ads.
 
 ## What it does
 
-- **Network blocking** – blocks requests to 23 common ad servers (`rules/ads.json`).
-- **Slot hiding** – hides leftover ad containers (`content/cosmetic.js`).
+- **Network blocking** – blocks third-party requests to ad servers (`rules/ads.json`).
+- **Slot hiding** – hides leftover ad containers (`content/selectors.js`, `content/cosmetic.js`).
 - **On/off switch** – one toggle in the toolbar popup.
 
-No tracking, no remote code, no account. The whole extension is about 150 lines.
+No tracking, no remote code, no account.
 
 ## Install (from source)
 
@@ -22,17 +23,27 @@ No tracking, no remote code, no account. The whole extension is about 150 lines.
 ## Layout
 
 ```
-manifest.json        extension definition
-rules/ads.json       network block rules
-content/cosmetic.js  hides leftover ad slots
-popup/               toolbar popup with the on/off switch
+manifest.json          extension definition
+rules/ads.json         network block rules (generated)
+content/selectors.js   ad-slot selectors (generated)
+content/cosmetic.js    applies the selectors
+popup/                 toolbar popup with the on/off switch
+tools/                 scripts that rebuild the generated files
 ```
 
-## Contributing
+## Updating the lists
 
-Add ad domains to `rules/ads.json` or selectors to `content/cosmetic.js`.
-Keep selectors narrow; broad ones break real sites.
+Download `easylist_adservers.txt` and `easylist_general_hide.txt` from the
+[EasyList repository](https://github.com/easylist/easylist/tree/master/easylist), then:
+
+```
+python3 tools/build_rules.py easylist_adservers.txt rules/ads.json
+python3 tools/build_cosmetic.py easylist_general_hide.txt content/selectors.js
+```
+
+Add your own domains to `tools/extra_domains.txt` and selectors to
+`tools/extra_selectors.txt`; the scripts merge them in.
 
 ## Licence
 
-MIT. See `LICENSE`.
+MIT for the code (see `LICENSE`). The generated rule files come from EasyList and keep its licence (see `NOTICE.md`).

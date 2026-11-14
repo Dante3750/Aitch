@@ -1,32 +1,23 @@
 // DanteHelp: hides leftover ad slots after the network rules block the ad itself.
 (() => {
   const api = globalThis.browser ?? globalThis.chrome;
-
-  // Kept deliberately narrow: broad selectors like [class*="ad"] break real sites.
-  const SELECTORS = [
-    "ins.adsbygoogle",
-    "iframe[src*='doubleclick.net']",
-    "iframe[src*='googlesyndication.com']",
-    "iframe[id^='google_ads_iframe']",
-    "div[id^='google_ads_iframe']",
-    "div[id^='div-gpt-ad']",
-    "div[data-google-query-id]",
-    "div[id^='taboola-']",
-    "div[class^='trc_rbox']",
-    "div.OUTBRAIN",
-    "div[data-ad-slot]",
-    "div[data-ad-unit]",
-    "amp-ad",
-    "amp-embed[type='taboola']"
-  ];
-
+  const SELECTORS = globalThis.DANTEHELP_SELECTORS ?? [];
   const STYLE_ID = "dantehelp-cosmetic";
+  const CHUNK = 200; // one bad selector only disables its own chunk
+
+  function css() {
+    const parts = [];
+    for (let i = 0; i < SELECTORS.length; i += CHUNK) {
+      parts.push(SELECTORS.slice(i, i + CHUNK).join(",") + "{display:none!important}");
+    }
+    return parts.join("\n");
+  }
 
   function apply() {
     if (document.getElementById(STYLE_ID)) return;
     const style = document.createElement("style");
     style.id = STYLE_ID;
-    style.textContent = SELECTORS.join(",\n") + " { display: none !important; }";
+    style.textContent = css();
     (document.head || document.documentElement).appendChild(style);
   }
 
