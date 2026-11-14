@@ -25,12 +25,23 @@
     document.getElementById(STYLE_ID)?.remove();
   }
 
-  api.storage.local.get({ enabled: true }).then(({ enabled }) => {
-    if (enabled) apply();
-  });
+  // The site the user is looking at: the top page, even when we run inside a frame.
+  function topHost() {
+    try {
+      const origins = location.ancestorOrigins;
+      if (origins && origins.length) return new URL(origins[origins.length - 1]).hostname;
+    } catch {}
+    return location.hostname;
+  }
 
+  function sync({ enabled, pausedSites }) {
+    enabled && !pausedSites.includes(topHost()) ? apply() : remove();
+  }
+
+  const read = () => api.storage.local.get({ enabled: true, pausedSites: [] }).then(sync);
+
+  read();
   api.storage.onChanged.addListener((changes, area) => {
-    if (area !== "local" || !changes.enabled) return;
-    changes.enabled.newValue ? apply() : remove();
+    if (area === "local" && (changes.enabled || changes.pausedSites)) read();
   });
 })();

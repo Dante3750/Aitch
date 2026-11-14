@@ -48,3 +48,8 @@ input:checked + .track .thumb { transform: translateX(18px); }
 input:focus-visible + .track { outline: 2px solid #fff; outline-offset: 2px; }
 
 .hint { margin: 14px 0 0; color: var(--muted); font-size: 12px; }
+
+.switch + .switch { margin-top: 12px; }
+.switch[hidden] { display: none; }
+.label { overflow-wrap: anywhere; }
+#site { font-weight: 600; }

@@ -2,15 +2,16 @@
 
 A small, readable ad blocker for Firefox and Chrome (Manifest V3).
 
-**Status: v0.2.0, early.** It blocks about 43,000 known ad-server domains and hides
-about 13,500 kinds of leftover ad slot, using the open EasyList data. It does not block
-YouTube or Hotstar video ads.
+**Status: v0.3.0, early.** Built on the open EasyList data: about 44,900 ad-server
+domains, 2,300 path rules, 480 exceptions that keep sites working, and 13,500 kinds of
+leftover ad slot. It does not block YouTube or Hotstar video ads.
 
 ## What it does
 
-- **Network blocking** – blocks third-party requests to ad servers (`rules/ads.json`).
+- **Network blocking** – blocks requests to ad servers and known ad paths (`rules/ads.json`).
+- **Exceptions** – EasyList's allow rules are honoured, so fewer sites break.
 - **Slot hiding** – hides leftover ad containers (`content/selectors.js`, `content/cosmetic.js`).
-- **On/off switch** – one toggle in the toolbar popup.
+- **Pause on one site** – a per-site switch in the popup, next to the main on/off switch.
 
 No tracking, no remote code, no account.
 
@@ -33,11 +34,12 @@ tools/                 scripts that rebuild the generated files
 
 ## Updating the lists
 
-Download `easylist_adservers.txt` and `easylist_general_hide.txt` from the
+Download the list files from the
 [EasyList repository](https://github.com/easylist/easylist/tree/master/easylist), then:
 
 ```
-python3 tools/build_rules.py easylist_adservers.txt rules/ads.json
+python3 tools/build_rules.py rules/ads.json easylist_adservers.txt easylist_thirdparty.txt \
+    easylist_general_block.txt easylist_specific_block.txt easylist_allowlist.txt
 python3 tools/build_cosmetic.py easylist_general_hide.txt content/selectors.js
 ```
 
